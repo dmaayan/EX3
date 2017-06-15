@@ -1,5 +1,5 @@
 ﻿
-document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function (event) { 
     var navDivString = "<div id=\"nav_div\">" +
         "<nav class=\"navbar navbar-default\" role=\"navigation\">" +
         "<div class=\"navbar-header\">" +
@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         "</ul>" +
         "</div>" +
         "</nav >" +
-        "</div >";
+        "</div>" +
+        "<h1 style=\"margin-left:10px\">" +
+        $(document).find("title").text() +
+        "</h1>";
     $("body").prepend(navDivString);
 });

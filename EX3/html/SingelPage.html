@@ -2,9 +2,31 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Single Page</title>
+    <link href="../Styles/bootstrap.css" rel="stylesheet" />
+    <link href="../Styles/menuStyle.css" rel="stylesheet" />
+   
 </head>
 <body>
-    single page ~
+    <div style="float:left">
+        <label>Maze name: </label><input id="mazeName" type="text" /><br />
+        <label>Maze rows: </label><input id="mazeRows" type="number" /><br />
+        <label>Maze columns: </label><input id="mazeCols" type="number" /><br />
+        <input class="buttonClass" id="start" onclick="startGame()" type="button" value="Start New Game" /><br />
+        <br /><label>Search algortihm: </label>
+        <select id="searchAlgo">
+            <option value="0">BFS</option>
+            <option value="1">DFS</option>
+        </select><br />
+        <input class="buttonClass" id="solve" onclick="solve()" type="button" value="Solve Game" /><br />
+    </div>
+    <div style="float:right">
+        <canvas id="mazeCanvas" width="600" height="600" ></canvas>
+    </div>
+    <script src="../scripts/jquery-3.2.1.js"></script>
+    <script src="../scripts/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="../scripts/Menu.js"></script>
+    <script src="../scripts/jquery.mazeBoard.js"></script>
+    <script src="../scripts/singlePlay.js"></script>
 </body>
 </html>

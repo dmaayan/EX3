@@ -2,9 +2,31 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Settings</title>
+    <link href="../Styles/bootstrap.css" rel="stylesheet" />
+    <link href="../Styles/menuStyle.css" rel="stylesheet" />
 </head>
 <body>
-    settingsssssssssssssssssssssss
+    <div >
+        <label>Maze rows: </label><input id="mazeRows" type="number" /><br/>
+        <label>Maze columns: </label><input id="mazeCols" type="number" /><br />
+        <label>Search algortihm: </label>
+        <select id="searchAlgo">
+            <option value="0">BFS</option>
+            <option value="1">DFS</option>
+        </select><br />
+        <input id="submit" onclick="saveSettings()" type="button" value="confirm" style="margin-left: 60px; margin-top: 10px" />
+    </div>
+
+    <script src="../scripts/jquery-3.2.1.js"></script>
+    <script src="../scripts/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="../scripts/Menu.js"></script>
+    <script>
+        function saveSettings() {
+            localStorage.setItem("mazeRows", $("#mazeRows").val());
+            localStorage.setItem("mazeCols", $("#mazeCols").val());
+            localStorage.setItem("searchAlgo", $("#searchAlgo").val());
+        }
+    </script>
 </body>
 </html>
