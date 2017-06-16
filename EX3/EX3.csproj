@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="html\HtmlPage1.html" />
     <Content Include="html\LoginPage.html" />
     <Content Include="html\MainPage.html" />
     <Content Include="html\MultiPage.html" />
@@ -96,6 +97,11 @@
     <Content Include="html\RegisterPage.html" />
     <Content Include="html\SettingsPage.html" />
     <Content Include="html\SingelPage.html" />
+    <Content Include="Images\key.jpg" />
+    <Content Include="Images\menu.png" />
+    <Content Include="Images\menu_blu.png" />
+    <Content Include="Images\menu_blu_shadow.png" />
+    <Content Include="Images\player.png" />
     <Content Include="scripts\bootstrap-3.3.7-dist\css\bootstrap-theme.css" />
     <Content Include="scripts\bootstrap-3.3.7-dist\css\bootstrap-theme.min.css" />
     <Content Include="scripts\singlePlay.js" />

@@ -18,19 +18,79 @@ function startGame() {
             rows: maze.Rows,
             cols: maze.Cols
         };
-        $("#mazeCanvas").css({ "margin-right": "30px", "border": "solid thick" }).mazeBoard(
-            mazeData,
-            maze.Start.Row, maze.Start.Col,
-            maze.End.Row, maze.End.Col,
-            null, null, true,
-            //function (direction, playerRow, playerCol) {
-            //    switch (direction) {
-            //        case 0:
-            //            pla
-            //    }
-            //});
-            null);
+        var playerImage = new Image();
+        playerImage.src = "../Images/player.png";
+        playerImage.onload = function () {
+            var exitImage = new Image();
+            exitImage.src = "../Images/key.jpg"
+            exitImage.onload = function () {
+                $("#mazeCanvas")
+                $("#mazeCanvas").css({ "margin-right": "30px", "border": "solid thick" }).mazeBoard(
+                    mazeData,
+                    maze.Start.Row, maze.Start.Col,
+                    maze.End.Row, maze.End.Col,
+                    playerImage, exitImage, true,
+                    function (direction, playerRow, playerCol) {
+                        var canvas = $("#mazeCanvas")[0];
+                        var context = canvas.getContext("2d");
+                        var cellWidth = canvas.width / mazeData.cols;
+                        var cellHeight = canvas.height / mazeData.rows;
+                        context.fillStyle = "#ffffff";
+                        switch (direction) {
+                            //left
+                            case 37: {
+                                var mazePos = maze.Maze[playerRow * maze.Cols + playerCol - 1];
+                                if ((playerCol > 0) && (mazePos != 1)) {
+                                    context.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
+                                    context.drawImage(playerImage, cellWidth * (playerCol - 1), cellHeight * playerRow, cellWidth, cellHeight);
+                                    return { Row: playerRow, Col: (playerCol - 1) };
+                                }
+                                break;
+                            }
 
+                            //right
+                            case 39: {
+                                if ((playerCol < maze.Cols - 1) && (maze.Maze[playerRow * maze.Cols + playerCol + 1] != 1)) {
+                                    context.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
+                                    context.drawImage(playerImage, cellWidth * (playerCol + 1), cellHeight * playerRow, cellWidth, cellHeight);
+                                    return { Row: playerRow, Col: (playerCol + 1) };
+                                }
+                                break;
+                            }
+
+                            //up
+                            case 38: {
+                                if ((playerRow > 0) && (maze.Maze[(playerRow - 1) * maze.Cols + playerCol] != 1)) {
+                                    context.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
+                                    context.drawImage(playerImage, cellWidth * playerCol, cellHeight * (playerRow - 1), cellWidth, cellHeight);
+                                    return { Row: (playerRow - 1), Col: playerCol };
+                                }
+                                break;
+                            }
+
+                            //down
+                            case 40: {
+                                if ((playerRow < maze.Rows - 1) && (maze.Maze[(playerRow + 1) * maze.Cols + playerCol] != 1)) {
+                                    context.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
+                                    context.drawImage(playerImage, cellWidth * playerCol, cellHeight * (playerRow + 1), cellWidth, cellHeight);
+                                    return { Row: (playerRow + 1), Col: playerCol };
+                                }
+                                break;
+                            }
+
+                            default: {
+                                return { Row: playerRow, Col: playerCol };
+                            }
+
+                        }
+                        return { Row: playerRow, Col: playerCol };
+                    }
+                );
+            };
+        };
+        
+
+        
     });
 }
 
