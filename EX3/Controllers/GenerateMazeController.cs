@@ -1,4 +1,5 @@
-﻿using MazeGeneratorLib;
+﻿using EX3.Models;
+using MazeGeneratorLib;
 using MazeLib;
 using System;
 using System.Collections.Generic;
@@ -11,33 +12,31 @@ namespace EX3.Controllers
 {
     public class GenerateMazeController : ApiController
     {
-        static DFSMazeGenerator mazeGenerator = new DFSMazeGenerator();
-
-        private static List<Maze> mazes = new List<Maze>() {
-            mazeGenerator.Generate(10, 10),
-            mazeGenerator.Generate(10, 10)
-        };
-
-        // GET: api/GenerateMaze
-        public IEnumerable<Maze> Get()
-        {
-            return mazes;
-        }
+        private static IGenerateMazeModel model = new GenerateMazeModel();
 
         // GET: api/GenerateMaze/myName
         public string Get(string id)
         {
+            DFSMazeGenerator mazeGenerator = new DFSMazeGenerator();
             Maze maze = mazeGenerator.Generate(10, 10);
             maze.Name = id;
             return maze.ToJSON();
         }
 
+        // GET: api/GenerateMaze/myName/10/20
+        [Route("api/GenerateMaze/{name}/{rows}/{cols}")]
+        public string Get(string name, int rows, int cols)
+        {
+            return model.Generate(name, rows, cols).ToJSON();
+        }
+
         // POST: api/GenerateMaze
         public Maze Post([FromBody]MazeInfo mazeInfo)
         {
-            Maze maze = mazeGenerator.Generate(mazeInfo.Rows, mazeInfo.Cols);
-            maze.Name = mazeInfo.Name;
-            return maze;
+            //Maze maze = mazeGenerator.Generate(mazeInfo.Rows, mazeInfo.Cols);
+            //maze.Name = mazeInfo.Name;
+            //return maze;
+            return null;
         }
 
         // PUT: api/GenerateMaze/5
