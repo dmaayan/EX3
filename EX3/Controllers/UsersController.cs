@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using EX3.Models;
+using System.Security.Cryptography;
 
 namespace EX3.Controllers
 {
@@ -23,8 +24,29 @@ namespace EX3.Controllers
             return db.Users.Include(stat => stat.StatisticsUserName);
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/qq/qwee
         [ResponseType(typeof(User))]
+        [Route("api/Users/{id}/{password}")]
+        public async Task<IHttpActionResult> GetUser(string id, string password)
+        {
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(password);
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            string hashedPassword = sha.ComputeHash(bytes).ToString();
+            User user = await db.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            if (user.password != hashedPassword)
+            {
+                return BadRequest();
+            }
+            return Ok(user);
+        }
+
+        // GET: api/Users/qq
+        [ResponseType(typeof(User))]
+        [Route("api/Users/{id}")]
         public async Task<IHttpActionResult> GetUser(string id)
         {
             User user = await db.Users.FindAsync(id);
@@ -32,7 +54,6 @@ namespace EX3.Controllers
             {
                 return NotFound();
             }
-
             return Ok(user);
         }
 
@@ -79,6 +100,9 @@ namespace EX3.Controllers
             {
                 return BadRequest(ModelState);
             }
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(user.password);
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            user.password = sha.ComputeHash(bytes).ToString();
 
             db.Users.Add(user);
             await db.SaveChangesAsync();

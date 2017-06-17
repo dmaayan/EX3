@@ -2,9 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
-</head>
+    <title>Login</title>
+    <link href="../Styles/bootstrap.css" rel="stylesheet" />
+    <link href="../Styles/menuStyle.css" rel="stylesheet" /></head>
 <body>
-    Login
+    <p style="margin-left:10px">Please enter user name and password</p>
+    <label>User name:</label><input id="userName" name="userName" type="text" /><br />
+    <label>Password:</label><input id="password" type="password" /><br />
+    <input id="confirm" onclick="validateInputs()" type="button" value="Confirm" style="margin-left: 100px; margin-top: 10px" />
+    <script src="../scripts/jquery-3.2.1.js"></script>
+    <script src="../scripts/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="../scripts/Menu.js"></script>
+    <script src="../scripts/loginScript.js"></script>
 </body>
 </html>

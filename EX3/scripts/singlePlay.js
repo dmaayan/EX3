@@ -41,7 +41,9 @@ function startGame() {
     }
     enabled = true;
     var url = "../api/GenerateMaze/" + $("#mazeName").val() + "/" + $("#mazeRows").val() + "/" + $("#mazeCols").val();
-    $.get(url).done(function (data) {
+    $.get(url).fail(function () {
+        alert("Failed to get maze from server");
+    }).done(function (data) {
         console.log(data);
         maze = data;
         localStorage.removeItem(maze.Name);
@@ -174,7 +176,9 @@ function solve() {
     if (solutioinInLocal != undefined) {
         solveAnimationFunc(JSON.parse(solutioinInLocal));
     } else {
-        $.get(url).done(solveAnimationFunc);
+        $.get(url).fail(function () {
+            alert("Failed to get solution from server");
+        }).done(solveAnimationFunc);
     }
 }
 

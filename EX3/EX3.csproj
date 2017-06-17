@@ -117,6 +117,8 @@
     <Content Include="Images\player.png" />
     <Content Include="scripts\bootstrap-3.3.7-dist\css\bootstrap-theme.css" />
     <Content Include="scripts\bootstrap-3.3.7-dist\css\bootstrap-theme.min.css" />
+    <Content Include="scripts\loginScript.js" />
+    <Content Include="scripts\registerScript.js" />
     <Content Include="scripts\singlePlay.js" />
     <Content Include="Styles\bootstrap.css" />
     <Content Include="scripts\bootstrap-3.3.7-dist\css\bootstrap.min.css" />
