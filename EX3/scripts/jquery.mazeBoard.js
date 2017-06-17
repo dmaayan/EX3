@@ -13,7 +13,7 @@
             var playerCol;
             var canvas = elem;
             var context = canvas.getContext("2d");
-            context.fillStyle = "#ffffff";
+            context.fillStyle = "#000000";
             context.fillRect(0, 0, canvas.width, canvas.height);
             var size = (mazeData.rows >= mazeData.cols) ? canvas.height / mazeData.rows : canvas.width / mazeData.cols;
 			var cellWidth = size;

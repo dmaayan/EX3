@@ -53,8 +53,9 @@ function startGame() {
         var size = (mazeData.rows >= mazeData.cols) ? canvas.height / mazeData.rows : canvas.width / mazeData.cols;
         cellWidth = size;
         cellHeight = size;
+        playerPos = { Row: maze.Start.Row, Col: maze.Start.Col };
         while (!exitImageLoaded || !playerImageLoaded);
-        $("#mazeCanvas").css({ "margin-right": "30px" }).mazeBoard(
+        $("#mazeCanvas").css({ "margin-right": "30px", "border": "1px solid #000000" }).mazeBoard(
             mazeData,
             maze.Start.Row, maze.Start.Col,
             maze.End.Row, maze.End.Col,
@@ -130,6 +131,10 @@ function solve() {
     if (animating) {
         return;
     }
+    if ((playerPos.Col == maze.End.Col) && (playerPos.Row == maze.End.Row)) {
+        alert("You already won by yourself");
+        return;
+    }
     animating = true;
     var url = "../api/GenerateMaze/" + $("#searchAlgo").val();
     context.fillStyle = "#ffffff";
@@ -143,13 +148,17 @@ function solve() {
         var playerRow = maze.Start.Row;
         var playerCol = maze.Start.Col;
         var i = 0;
-        if (playerPos != undefined) {
-            context.fillRect(cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
-            context.drawImage(playerImage, cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
-        }
+
+        context.fillRect(cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
+        context.drawImage(playerImage, cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
+        
+        enabled = false;
         interval = setInterval(function () {
             if (i >= directions.length) {
+                context.drawImage(playerImage, cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
+                context.drawImage(exitImage, cellWidth * maze.End.Col, cellHeight * maze.End.Row, cellWidth, cellHeight);
                 clearInterval(interval);
+                enabled = true;
                 animating = false;
                 return;
             }
