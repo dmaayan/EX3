@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.12
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EX3", "EX3\EX3.csproj", "{FB7A9874-5C6A-43EB-8BF4-FB60E905DCB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchAlgorithmsLib", "..\SearchAlgorithmsLib\SearchAlgorithmsLib.csproj", "{DD7B007A-D5DD-4144-A43E-8AF6678C2076}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchAlgorithmsLib", "SearchAlgorithmsLib\SearchAlgorithmsLib.csproj", "{DD7B007A-D5DD-4144-A43E-8AF6678C2076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

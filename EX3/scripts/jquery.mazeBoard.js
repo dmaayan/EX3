@@ -8,17 +8,20 @@
 		enabled, // is the board enabled (i.e., player can move)
         callback) {
         $("#winLabel").html("");
-        this.each(function (index, elem) {
+        this.each(function (index, elem) {           
             var playerRow;
             var playerCol;
-			var canvas = elem;
-			var context = canvas.getContext("2d");
-			var cellWidth = canvas.width / mazeData.cols;
-			var cellHeight = canvas.height / mazeData.rows;
+            var canvas = elem;
+            var context = canvas.getContext("2d");
+            context.fillStyle = "#ffffff";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            var size = (mazeData.rows >= mazeData.cols) ? canvas.height / mazeData.rows : canvas.width / mazeData.cols;
+			var cellWidth = size;
+			var cellHeight = size;
 
 			for (var i = 0; i < mazeData.rows; i++) {
 				for (var j = 0; j < mazeData.cols; j++) {
-                    if (mazeData.maze[i * mazeData.rows + j] == 1) {
+				    if (mazeData.maze[i * mazeData.cols + j] == 1) {
                         context.fillStyle = "#000000";
                     }
                     else {
@@ -32,8 +35,8 @@
             playerCol = startCol;
 
             context.drawImage(playerImage, cellWidth * startCol, cellHeight * startRow, cellWidth, cellHeight);
-            context.drawImage(exitImage, cellWidth * exitCol, cellHeight * exitRow,cellWidth, cellHeight);
-            $(window).keydown(function (event) {
+            context.drawImage(exitImage, cellWidth * exitCol, cellHeight * exitRow, cellWidth, cellHeight);
+            var keyDownFunc = function (event) {
                 if (enabled) {
                     var direction = event.which;
                     var change = callback(direction, playerRow, playerCol);
@@ -44,7 +47,14 @@
                         $("#winLabel").html("Congratulaions, you won!");
                     }
                 }
-            });
+            };
+
+            $(window).on("keydown", keyDownFunc);
+            var exitFunc = function () {
+                $(window).off("keydown", keyDownFunc);
+                $("#start").off("click", exitFunc);
+            };
+            $("#start").on("click", exitFunc);
 			return this;
 		});
 	};

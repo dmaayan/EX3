@@ -15,12 +15,10 @@ namespace EX3.Controllers
         private static IGenerateMazeModel model = new GenerateMazeModel();
 
         // GET: api/GenerateMaze/myName
-        public string Get(string id)
+        [Route("api/GenerateMaze/{algo}")]
+        public string Get(int algo)
         {
-            DFSMazeGenerator mazeGenerator = new DFSMazeGenerator();
-            Maze maze = mazeGenerator.Generate(10, 10);
-            maze.Name = id;
-            return maze.ToJSON();
+            return model.Solve(algo).ToJson();
         }
 
         // GET: api/GenerateMaze/myName/10/20

@@ -13,7 +13,7 @@ namespace EX3.Models
         /// <summary>
         /// all the single game mazes
         /// </summary>
-        private static Dictionary<string, Maze> singlePlayerMazes = new Dictionary<string, Maze>();
+        private static KeyValuePair<string, Maze> singlePlayerMaze = new KeyValuePair<string, Maze>("", null);
 
         /// <summary>
         /// all the solutions to the single game mazes
@@ -29,23 +29,38 @@ namespace EX3.Models
         /// <param name="cols">the cols of the maze </param>
         /// <returns>the new maze</returns>
         public Maze Generate(string name, int rows, int cols)
-        {
+        { 
+            // if the maze exist return it
+            if (singlePlayerMaze.Key.Equals(name))
+            {
+                return singlePlayerMaze.Value;
+            }
             DFSMazeGenerator mazeGenerator = new DFSMazeGenerator();
             Maze maze = mazeGenerator.Generate(rows, cols);
             maze.Name = name;
-            // if the maze exist close it
-            if (singlePlayerMazes.ContainsKey(name))
-            {
-                CloseSingleGame(name);
-            }
             // create new maze
-            singlePlayerMazes.Add(name, maze);
+            singlePlayerMaze = new KeyValuePair<string, Maze>(name, maze);
             return maze;
         }
 
-        public MazeSolution Solve(string name, int algo)
+        /// <summary>
+        /// solve a maze
+        /// </summary>
+        /// <param name="name">the name of the maze</param>
+        /// <returns>the solution to the maze</returns>
+        public MazeSolution Solve(int algo)
         {
-            return null;
+            // solve the maze and return the solution
+            Maze maze = singlePlayerMaze.Value;
+            MazeAdapter mazeAdapter = new MazeAdapter(maze);
+            if (algo == 0)
+            {
+                return new MazeSolution(new BFS<Position>().Search(mazeAdapter), maze.Name);
+            }
+            else
+            {
+                return new MazeSolution(new DFS<Position>().Search(mazeAdapter), maze.Name);
+            }
         }
     }
 }
