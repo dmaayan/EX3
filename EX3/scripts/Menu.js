@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         "</div >" +
         "<div>" +
         "<ul class=\"nav navbar-nav\">" +
-        "<li class=\"active\"><a href=\"SingelPage.html\">Single Game</a></li>" +
+        "<li class=\"active\"><a href=\"SinglePage.html\">Single Game</a></li>" +
         "<li><a href=\"MultiPage.html\">Multiplayer Game</a></li>" +
         "<li><a href=\"SettingsPage.html\">Settings</a></li>" +
         "<li><a href=\"RankingPage.html\">User Rankings</a></li>" +

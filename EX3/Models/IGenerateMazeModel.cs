@@ -11,6 +11,6 @@ namespace EX3.Models
     {
         Maze Generate(string name, int rows, int cols);
 
-        MazeSolution Solve(int algo);
+        MazeSolution Solve(string name, int algo);
     }
 }

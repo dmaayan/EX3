@@ -44,6 +44,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MazeGeneratorLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SearchAlgorithmsLib\MazeGeneratorLib.dll</HintPath>
@@ -89,6 +97,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\EX3Context-20170617192055.mdf" />
+    <Content Include="App_Data\EX3Context-20170617192055_log.ldf">
+      <DependentUpon>EX3Context-20170617192055.mdf</DependentUpon>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="html\HtmlPage1.html" />
     <Content Include="html\LoginPage.html" />
@@ -97,7 +109,7 @@
     <Content Include="html\RankingPage.html" />
     <Content Include="html\RegisterPage.html" />
     <Content Include="html\SettingsPage.html" />
-    <Content Include="html\SingelPage.html" />
+    <Content Include="html\SinglePage.html" />
     <Content Include="Images\key.jpg" />
     <Content Include="Images\menu.png" />
     <Content Include="Images\menu_blu.png" />
@@ -121,13 +133,25 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\GenerateMazeController.cs" />
-    <Compile Include="Controllers\MazeInfo.cs" />
-    <Compile Include="DBObjects\User.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706171640430_Initial.cs" />
+    <Compile Include="Migrations\201706171640430_Initial.Designer.cs">
+      <DependentUpon>201706171640430_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706171643260_Initial1.cs" />
+    <Compile Include="Migrations\201706171643260_Initial1.Designer.cs">
+      <DependentUpon>201706171643260_Initial1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\EX3Context.cs" />
     <Compile Include="Models\GenerateMazeModel.cs" />
     <Compile Include="Models\IGenerateMazeModel.cs" />
+    <Compile Include="Models\Statistics.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -148,14 +172,20 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SearchAlgorithmsLib\SearchAlgorithmsLib.csproj">
       <Project>{DD7B007A-D5DD-4144-A43E-8AF6678C2076}</Project>
       <Name>SearchAlgorithmsLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706171640430_Initial.resx">
+      <DependentUpon>201706171640430_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706171643260_Initial1.resx">
+      <DependentUpon>201706171643260_Initial1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

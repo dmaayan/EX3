@@ -44,7 +44,7 @@
                     playerCol = change.Col;
                     if ((playerRow == exitRow) && (playerCol == exitCol)) {
                         enabled = false;
-                        $("#winLabel").html("Congratulaions, you won!");
+                        $("#winLabel").html("Congratulations, you won!");
                     }
                 }
             };

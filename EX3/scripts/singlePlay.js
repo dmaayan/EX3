@@ -43,7 +43,7 @@ function startGame() {
     var url = "../api/GenerateMaze/" + $("#mazeName").val() + "/" + $("#mazeRows").val() + "/" + $("#mazeCols").val();
     $.get(url).done(function (data) {
         console.log(data);
-        maze = JSON.parse(data);
+        maze = data;
         localStorage.removeItem(maze.Name);
         var mazeData = {
             maze: maze.Maze,
@@ -136,23 +136,22 @@ function solve() {
         return;
     }
     animating = true;
-    var url = "../api/GenerateMaze/" + $("#searchAlgo").val();
+    var url = "../api/GenerateMaze/" + maze.Name + "/" + $("#searchAlgo").val();
     context.fillStyle = "#ffffff";
 
     var solveAnimationFunc = function (solution) {
+        debugger;
         enabled = false;
-        localStorage.setItem(maze.Name, solution);
-        solution = JSON.parse(solution);
-        directions = solution.Solution;
+        localStorage.setItem(maze.Name, JSON.stringify(solution));
+        var directions = solution.Solution;
 
         var playerRow = maze.Start.Row;
         var playerCol = maze.Start.Col;
-        var i = 0;
 
         context.fillRect(cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
         context.drawImage(playerImage, cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
         
-        enabled = false;
+        var i = 0;
         interval = setInterval(function () {
             if (i >= directions.length) {
                 context.drawImage(playerImage, cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
@@ -171,9 +170,9 @@ function solve() {
         }, 250);
     };
 
-    if (localStorage.getItem(maze.Name) != undefined) {
-        console.log("found in local");
-        solveAnimationFunc(localStorage.getItem(maze.Name));
+    var solutioinInLocal = localStorage.getItem(maze.Name);
+    if (solutioinInLocal != undefined) {
+        solveAnimationFunc(JSON.parse(solutioinInLocal));
     } else {
         $.get(url).done(solveAnimationFunc);
     }

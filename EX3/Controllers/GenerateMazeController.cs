@@ -1,6 +1,7 @@
 ﻿using EX3.Models;
 using MazeGeneratorLib;
 using MazeLib;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,37 +15,20 @@ namespace EX3.Controllers
     {
         private static IGenerateMazeModel model = new GenerateMazeModel();
 
-        // GET: api/GenerateMaze/myName
-        [Route("api/GenerateMaze/{algo}")]
-        public string Get(int algo)
+        // GET: api/GenerateMaze/myName/1
+        [Route("api/GenerateMaze/{name}/{algo}")]
+        public JObject Get(string name, int algo)
         {
-            return model.Solve(algo).ToJson();
+            JObject obj = JObject.Parse(model.Solve(name, algo).ToJson());
+            return obj;
         }
 
         // GET: api/GenerateMaze/myName/10/20
         [Route("api/GenerateMaze/{name}/{rows}/{cols}")]
-        public string Get(string name, int rows, int cols)
+        public JObject Get(string name, int rows, int cols)
         {
-            return model.Generate(name, rows, cols).ToJSON();
-        }
-
-        // POST: api/GenerateMaze
-        public Maze Post([FromBody]MazeInfo mazeInfo)
-        {
-            //Maze maze = mazeGenerator.Generate(mazeInfo.Rows, mazeInfo.Cols);
-            //maze.Name = mazeInfo.Name;
-            //return maze;
-            return null;
-        }
-
-        // PUT: api/GenerateMaze/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/GenerateMaze/5
-        public void Delete(int id)
-        {
+            JObject obj = JObject.Parse(model.Generate(name, rows, cols).ToJSON());
+            return obj;
         }
     }
 }
