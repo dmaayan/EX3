@@ -17,5 +17,6 @@ function validateInputs() {
     }).done(function (user) {
         console.log("Connected!");
         sessionStorage.user = user.userName;
+        window.location.replace("../html/MainPage.html");
     });
 }

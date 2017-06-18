@@ -3,20 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <link href="../Styles/loader.css" rel="stylesheet" />
 </head>
 <body>
-    <canvas width="400" height="400" id="Canvas">
-
-    </canvas>
-    <script src="../scripts/jquery-3.2.1.js"></script>
-    <script>
-        var image = new Image();
-        image.src = "../Images/key.jpg";
-        image.onload = function () {
-            var context = $("#Canvas")[0].getContext("2d");
-            context.drawImage(image, 10, 10, 30, 30);
-        };
-        
-    </script>
+    <div class="loader"></div>
 </body>
 </html>

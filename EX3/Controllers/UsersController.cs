@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using EX3.Models;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace EX3.Controllers
 {
@@ -29,9 +30,7 @@ namespace EX3.Controllers
         [Route("api/Users/{id}/{password}")]
         public async Task<IHttpActionResult> GetUser(string id, string password)
         {
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(password);
-            SHA1 sha = new SHA1CryptoServiceProvider();
-            string hashedPassword = sha.ComputeHash(bytes).ToString();
+            string hashedPassword = ComputeHash(password);
             User user = await db.Users.FindAsync(id);
             if (user == null)
             {
@@ -100,9 +99,7 @@ namespace EX3.Controllers
             {
                 return BadRequest(ModelState);
             }
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(user.password);
-            SHA1 sha = new SHA1CryptoServiceProvider();
-            user.password = sha.ComputeHash(bytes).ToString();
+            user.password = ComputeHash(user.password);
 
             db.Users.Add(user);
             await db.SaveChangesAsync();
@@ -138,6 +135,15 @@ namespace EX3.Controllers
         private bool UserExists(string id)
         {
             return db.Users.Count(e => e.userName == id) > 0;
+        }
+
+        private string ComputeHash(string input)
+        {
+            SHA1 sha = SHA1.Create();
+            byte[] buffer = Encoding.ASCII.GetBytes(input);
+            byte[] hash = sha.ComputeHash(buffer);
+            string hash64 = Convert.ToBase64String(hash);
+            return hash64;
         }
     }
 }

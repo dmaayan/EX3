@@ -9,12 +9,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var navDivString = "<div id=\"nav_div\">" +
         "<nav class=\"navbar navbar-default\" role=\"navigation\">" +
         "<div class=\"navbar-header\">" +
-        "<a class=\"navbar-brand\" href=\"#\">Maze</a>" +
+        "<a class=\"navbar-brand\" >Maze</a>" +
         "</div >" +
         "<div>" +
         "<ul class=\"nav navbar-nav\">" +
-        "<li class=\"active\"><a href=\"SinglePage.html\">Single Game</a></li>" +
-        "<li><a href=\"MultiPage.html\">Multiplayer Game</a></li>" +
+        "<li><a href=\"SinglePage.html\">Single Game</a></li>" +
+        "<li onclick=\"multiClick()\"><a href=\"#\">Multiplayer Game</a></li>" +
         "<li><a href=\"SettingsPage.html\">Settings</a></li>" +
         "<li><a href=\"RankingPage.html\">User Rankings</a></li>" +
         registerLi + loginLi +
@@ -29,4 +29,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 function logOff() {
     sessionStorage.removeItem("user");
     window.location.replace("../html/MainPage.html");
+}
+
+function multiClick() {
+    if (sessionStorage.user) {
+        window.location = "../html/MultiPage.html";
+    } else {
+        window.location = "../html/LoginPage.html";
+    }
 }

@@ -20,7 +20,7 @@ namespace EX3.Controllers
         // GET: api/Statistics
         public IQueryable<Statistics> GetStatistics()
         {
-            return db.Statistics;
+            return db.Statistics.OrderByDescending(stat => (stat.Wins - stat.Losses));
         }
 
         // GET: api/Statistics/5

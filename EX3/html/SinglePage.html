@@ -5,14 +5,14 @@
     <title>Single Page</title>
     <link href="../Styles/bootstrap.css" rel="stylesheet" />
     <link href="../Styles/menuStyle.css" rel="stylesheet" />
-   
+    <link href="../Styles/loader.css" rel="stylesheet" />
 </head>
 <body>
     <div style="float:left">
         <label>Maze name: </label><input id="mazeName" type="text" /><br />
         <label>Maze rows: </label><input id="mazeRows" type="number" /><br />
         <label>Maze columns: </label><input id="mazeCols" type="number" /><br />
-        <input class="buttonClass" id="start" onclick="startGame()" type="button" value="Start New Game" /><br /><br />
+        <input class="buttonClass" id="start" type="button" value="Start New Game" /><br /><br />
 
         <label>Search algortihm: </label>
         <select id="searchAlgo">
@@ -20,17 +20,18 @@
             <option value="1">DFS</option>
         </select><br />
 
-        <input class="buttonClass" id="solve" onclick="solve()" type="button" value="Solve Game" /><br />
-        <label id="winLabel" style="width:220px; margin-top: 50px" ></label>
+        <input class="buttonClass" id="solve" type="button" value="Solve Game" /><br />
+        <label id="winLabel" style="width:220px; margin-top: 50px"></label>
     </div>
 
-    <div style="float:right;"><!--  width:600px; height:600px; position:relative -->
-        <canvas id="mazeCanvas" width="600" height="600" ></canvas>
+    <div style="float:right;">
+        <canvas id="mazeCanvas" width="500" height="500"></canvas>
+        <div id="loader" class="loaderAnimation" style="position:fixed; right: 200px; top: 200px"></div>
     </div>
 
     <script src="../scripts/jquery-3.2.1.js"></script>
     <script src="../scripts/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-    <script src="../scripts/Menu.js"></script>
+    <script src="../scripts/menu.js"></script>
     <script src="../scripts/jquery.mazeBoard.js"></script>
     <script src="../scripts/singlePlay.js"></script>
 </body>
