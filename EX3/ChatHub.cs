@@ -8,15 +8,16 @@ namespace EX3
 {
     public class ChatHub : Hub
     {
-        public void Hello()
-        {
-            Clients.All.hello();
-        }
-
         public void Send(string name, string message)
         {
             // Call the broadcastMessage method to update clients
             Clients.All.broadcastMessage(name, message);
         }
+
+        public void start()
+        {
+            Clients.All.hello();
+        }
+
     }
 }

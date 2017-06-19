@@ -2,9 +2,42 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Multi Player Game</title>
+    <link href="../Styles/bootstrap.css" rel="stylesheet" />
+    <link href="../Styles/menuStyle.css" rel="stylesheet" />
+    <link href="../Styles/loader.css" rel="stylesheet" />
 </head>
 <body>
-    multi page !!
+    <div style="float:left">
+
+        <label>Games: </label>
+        <select id="games">
+            <option value="0">BFS</option>
+            <option value="1">DFS</option>
+        </select><br />
+        <input class="buttonClass" id="join" type="button" value="Join Game" /><br /><br />
+
+        <label>Maze name: </label><input id="mazeName" type="text" /><br />
+        <label>Maze rows: </label><input id="mazeRows" type="number" /><br />
+        <label>Maze columns: </label><input id="mazeCols" type="number" /><br />
+        <input class="buttonClass" id="start" type="button" value="Start Game" /><br /><br />
+        <label id="winOrLose" style="width:220px; margin-top: 50px"></label>
+    </div>
+
+    <div style="float:right;">
+        <div style="float:right;">
+            <canvas id="otherCanvas" width="500" height="500"></canvas>
+        </div>
+        <div id="loader" class="loaderAnimation" style="position:fixed; right: 200px; top: 200px"></div>
+        <div style="float:left;">
+            <canvas id="myCanvas" width="500" height="500"></canvas>
+        </div>
+    </div>
+
+    <script src="../scripts/jquery-3.2.1.js"></script>
+    <script src="../scripts/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="../scripts/menu.js"></script>
+    <script src="../scripts/jquery.mazeBoard.js"></script>
+    <script src="../scripts/multiPlay.js"></script>
 </body>
 </html>

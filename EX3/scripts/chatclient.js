@@ -1,5 +1,4 @@
-﻿debugger;
-// Declare a proxy to reference the hub
+﻿// Declare a proxy to reference the hub
 var chat = $.connection.chatHub;
 // Create a function that the hub can call to broadcast messages
 chat.client.broadcastMessage = function (name, message) {

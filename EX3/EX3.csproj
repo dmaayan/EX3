@@ -154,6 +154,7 @@
     <Content Include="scripts\jquery.signalR-2.2.2.js" />
     <Content Include="scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="scripts\loginScript.js" />
+    <Content Include="scripts\multiPlay.js" />
     <Content Include="scripts\rankingScript.js" />
     <Content Include="scripts\registerScript.js" />
     <Content Include="scripts\settingsScript.js" />
@@ -191,8 +192,12 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EX3Context.cs" />
+    <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GenerateMazeModel.cs" />
     <Compile Include="Models\IGenerateMazeModel.cs" />
+    <Compile Include="Models\IMultiPlayerModel.cs" />
+    <Compile Include="Models\MultiPlayerModel.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Statistics.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
