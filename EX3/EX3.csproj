@@ -164,7 +164,6 @@
     <Content Include="scripts\bootstrap-3.3.7-dist\js\bootstrap.js" />
     <Content Include="scripts\bootstrap-3.3.7-dist\js\bootstrap.min.js" />
     <Content Include="scripts\bootstrap-3.3.7-dist\js\npm.js" />
-    <Content Include="scripts\JavaScript.js" />
     <Content Include="scripts\jquery-3.2.1.js" />
     <Content Include="scripts\menu.js" />
     <Content Include="Styles\loader.css" />

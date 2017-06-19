@@ -13,12 +13,16 @@ namespace EX3.Controllers
 {
     public class GenerateMazeController : ApiController
     {
+        /// <summary>
+        /// the model for single player
+        /// </summary>
         private static IGenerateMazeModel model = new GenerateMazeModel();
 
         // GET: api/GenerateMaze/myName/1
         [Route("api/GenerateMaze/{name}/{algo}")]
         public JObject Get(string name, int algo)
         {
+            // return a solution object
             JObject obj = JObject.Parse(model.Solve(name, algo).ToJson());
             return obj;
         }
@@ -27,6 +31,7 @@ namespace EX3.Controllers
         [Route("api/GenerateMaze/{name}/{rows}/{cols}")]
         public JObject Get(string name, int rows, int cols)
         {
+            // return a maze object
             JObject obj = JObject.Parse(model.Generate(name, rows, cols).ToJSON());
             return obj;
         }

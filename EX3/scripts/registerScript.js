@@ -1,6 +1,7 @@
 ﻿/// <reference path="C:\Users\nweichse\Source\Repos\EX3\EX3\html/LoginPage.html" />
 
 function validateInputs() {
+    // validate all inputs
     var userNameIn = document.getElementById("userName").value;
     var userEmailIn = document.getElementById("email").value;
     var userValidPassIn = document.getElementById("validatePassword").value;
@@ -12,25 +13,25 @@ function validateInputs() {
         alert("Input error!");
         return;
     }
-    var url = "../api/Users/" + userNameIn;
-    $.get(url).fail(function (xhr) {
-        if (xhr.status == 404) {
-            $.post("../api/Users",
-                {
-                    userName: userNameIn,
-                    password: userPasswordIn,
-                    email: userEmailIn,
-                    StatisticsUserName: { UserName: userNameIn, Wins: 0, Losses: 0 }
-                }).fail(function (xhr1) {
-                    console.log("Failed to add user")
-                }).done(function () {
-                    console.log("User have been saved into database");
-                    window.location.replace("../html/LoginPage.html");
-                });
-        } else {
-            alert("Failed to connect to server");
+    // request to register user to data base
+    var url = "../api/Users/";
+    var userData = {
+        userName: userNameIn,
+        password: userPasswordIn,
+        email: userEmailIn,
+        StatisticsUserName: { UserName: userNameIn, Wins: 0, Losses: 0 }
+    };
+    $.post(url, userData).fail(function (xhr) {
+        // user name taken error
+        if (xhr.responseJSON == "UserName") {
+            alert("User name already taken!");
+        } else if (xhr.responseJSON == "Db") {
+            // data base error
+            console.log("Data base error");
         }
     }).done(function () {
-        alert("Name already taken");
+        // user have been saved
+        console.log("User have been saved into database");
+        window.location.replace("../html/LoginPage.html");
     });
 }
