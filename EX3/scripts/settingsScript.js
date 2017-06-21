@@ -1,4 +1,4 @@
-﻿
+﻿// load the default data id available
 $(document).ready(function () {
     if (localStorage.mazeRows) {
         $("#mazeRows").val(localStorage.mazeRows);
@@ -12,6 +12,7 @@ $(document).ready(function () {
 });
 
 function saveSettings() {
+    // save the settings
     localStorage.setItem("mazeRows", $("#mazeRows").val());
     localStorage.setItem("mazeCols", $("#mazeCols").val());
     localStorage.setItem("searchAlgo", $("#searchAlgo").val());

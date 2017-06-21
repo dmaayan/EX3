@@ -1,11 +1,14 @@
 ﻿
 document.addEventListener("DOMContentLoaded", function (event) {
+    // decide which register and login lines to use
     var registerLi = "<li style=\"margin-left:100px\"><a href=\"RegisterPage.html\">Register</a></li>"
     var loginLi = "<li><a href=\"LoginPage.html\">Login</a></li>"
+    // change the lines if user is connected
     if (sessionStorage.user) {
         registerLi = "<li style=\"margin-left:100px\"; width=\"100\"><a>Hello " + sessionStorage.user + "</a></li>";
         loginLi = "<li style=\"margin-left:30px\" onclick=\"logOff()\"><a>Log off</a></li>";
     }
+    // create menu bar
     var navDivString = "<div id=\"nav_div\">" +
         "<nav class=\"navbar navbar-default\" role=\"navigation\">" +
         "<div class=\"navbar-header\">" +
@@ -26,11 +29,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
     $("body").prepend(navDivString);
 });
 
+// log of the user
 function logOff() {
     sessionStorage.removeItem("user");
     window.location.replace("../html/MainPage.html");
 }
 
+// if clicked on multiplayer game without login
 function multiClick() {
     if (sessionStorage.user) {
         window.location = "../html/MultiPage.html";

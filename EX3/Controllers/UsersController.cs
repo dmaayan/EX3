@@ -30,16 +30,20 @@ namespace EX3.Controllers
         [Route("api/Users/{id}/{password}")]
         public async Task<IHttpActionResult> GetUser(string id, string password)
         {
+            // hash the password
             string hashedPassword = ComputeHash(password);
             User user = await db.Users.FindAsync(id);
+            // if failed to find user
             if (user == null)
             {
                 return NotFound();
             }
+            // check password
             if (user.password != hashedPassword)
             {
                 return BadRequest();
             }
+            // return the user
             return Ok(user);
         }
 
@@ -64,7 +68,7 @@ namespace EX3.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            // user id does not match user
             if (id != user.userName)
             {
                 return BadRequest();
@@ -97,10 +101,16 @@ namespace EX3.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Db");
             }
+            // cant add user that already in the system
+            if (UserExists(user.userName))
+            {
+                return Content(HttpStatusCode.Conflict, "UserName");
+            }
+            // hash the password
             user.password = ComputeHash(user.password);
-
+            // add user to data base
             db.Users.Add(user);
             await db.SaveChangesAsync();
 
@@ -111,12 +121,13 @@ namespace EX3.Controllers
         [ResponseType(typeof(User))]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
+            // get the user to delete
             User user = await db.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-
+            // delete the user
             db.Users.Remove(user);
             await db.SaveChangesAsync();
 
@@ -132,11 +143,21 @@ namespace EX3.Controllers
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// checks if user exist
+        /// </summary>
+        /// <param name="id">of the user to check</param>
+        /// <returns>true if user in data base, false otherwise</returns>
         private bool UserExists(string id)
         {
             return db.Users.Count(e => e.userName == id) > 0;
         }
 
+        /// <summary>
+        /// hash a password
+        /// </summary>
+        /// <param name="input">string to hash</param>
+        /// <returns>hashed string</returns>
         private string ComputeHash(string input)
         {
             SHA1 sha = SHA1.Create();

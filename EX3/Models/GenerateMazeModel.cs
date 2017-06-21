@@ -16,7 +16,7 @@ namespace EX3.Models
         private static Dictionary<string, Maze> singlePlayerMazes = new Dictionary<string, Maze>();
 
         /// <summary>
-        /// Generate a Maze, if the maze exist close it and create new maze
+        /// Generate a Maze
         /// </summary>
         /// <param name="name">the name of the maze </param>
         /// <param name="rows">the rows of the maze </param>
@@ -24,15 +24,16 @@ namespace EX3.Models
         /// <returns>the new maze</returns>
         public Maze Generate(string name, int rows, int cols)
         { 
+            // generate a maze
             DFSMazeGenerator mazeGenerator = new DFSMazeGenerator();
             Maze maze = mazeGenerator.Generate(rows, cols);
             maze.Name = name;
-            // if the maze exist return it
+            // if the maze exist close it
             if (singlePlayerMazes.ContainsKey(name))
             {
                 singlePlayerMazes.Remove(name);
             }
-            // create new maze
+            // add the new maze
             singlePlayerMazes.Add(name, maze);
             return maze;
         }
@@ -49,6 +50,7 @@ namespace EX3.Models
             Maze maze = singlePlayerMazes[name];
             MazeAdapter mazeAdapter = new MazeAdapter(maze);
             MazeSolution ms;
+            // solve with the correct algorithm
             if (algo == 0)
             {
                 ms = new MazeSolution(new BFS<Position>().Search(mazeAdapter), maze.Name);
@@ -57,6 +59,7 @@ namespace EX3.Models
             {
                 ms = new MazeSolution(new DFS<Position>().Search(mazeAdapter), maze.Name);
             }
+            // return the solution
             return ms;
         }
     }
