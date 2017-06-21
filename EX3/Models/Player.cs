@@ -14,7 +14,7 @@ namespace EX3.Models
         /// <summary>
         /// the client
         /// </summary>
-        private int client;
+        private string client;
         /// <summary>
         /// the way that this player have played
         /// </summary>
@@ -28,7 +28,7 @@ namespace EX3.Models
         /// constuctor
         /// </summary>
         /// <param name="c">the client</param>
-        public Player(int c)
+        public Player(string c)
         {
             wait = false;
             client = c;
@@ -38,7 +38,7 @@ namespace EX3.Models
         /// <summary>
         /// a property of client 
         /// </summary>
-        public int Client
+        public string Client
         {
             get { return client; }
         }

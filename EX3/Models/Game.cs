@@ -67,7 +67,7 @@ namespace EX3.Models
         /// </summary>
         /// <param name="tcc">client to get the other client</param>
         /// <returns>the other client</returns>
-        public Player GetOtherPlayer(int tcc)
+        public Player GetOtherPlayer(string tcc)
         {
             // compares this client with the plaer to get the other palyer
             if (player.Client == tcc)

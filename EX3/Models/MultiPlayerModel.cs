@@ -8,32 +8,32 @@ using System.Web;
 
 namespace EX3.Models
 {
-    public class MultiPlayerModel
+    public class MultiPlayerModel : IMultiPlayerModel
     {
         /// <summary>
         /// all the games waiting for a second player
         /// </summary>
-        private Dictionary<string, Maze> waitingList;
+        private static Dictionary<string, Maze> waitingList;
 
         /// <summary>
         /// all games currently active
         /// </summary>
-        private Dictionary<string, Maze> activeGames;
+        private static Dictionary<string, Maze> activeGames;
 
         /// <summary>
         /// all the multiplayer games
         /// </summary>
-        private Dictionary<string, Maze> multiPlayerMazes;
+        private static Dictionary<string, Maze> multiPlayerMazes;
 
         /// <summary>
         /// maze name to game dictionary
         /// </summary>
-        private Dictionary<string, Game> mazeNameToGame;
+        private static Dictionary<string, Game> mazeNameToGame;
 
         /// <summary>
         /// client to maze dictionary
         /// </summary>
-        private Dictionary<int, string> clientToMazeName;
+        private static Dictionary<string, string> clientToMazeName;
 
         /// <summary>
         /// constructor
@@ -44,7 +44,7 @@ namespace EX3.Models
             activeGames = new Dictionary<string, Maze>();
             waitingList = new Dictionary<string, Maze>();
             mazeNameToGame = new Dictionary<string, Game>();
-            clientToMazeName = new Dictionary<int, string>();
+            clientToMazeName = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace EX3.Models
         /// <param name="cols">of the maze</param>
         /// <param name="client">that start this game</param>
         /// <returns>the maze</returns>
-        public Maze StartGame(string name, int rows, int cols, int client)
+        public Maze StartGame(string name, int rows, int cols, string client)
         {
             // create a multiplay game - the maze
             Maze maze = MultiGameGenerateMaze(name, rows, cols);
@@ -107,7 +107,7 @@ namespace EX3.Models
         /// <param name="name"> of the game to join </param>
         /// <param name="client"> that requested to join</param>
         /// <returns>the maze of the game</returns>
-        public Maze JoinGame(string name, int client)
+        public Maze JoinGame(string name, string client)
         {
             // check for available maze with that name
             if (waitingList.ContainsKey(name))
@@ -134,7 +134,7 @@ namespace EX3.Models
         /// <param name="move"> Direction to play</param>
         /// <param name="client">that moved</param>
         /// <returns>the maze played by this client</returns>
-        public Maze PlayGame(Direction move, int client)
+        public Maze PlayGame(Direction move, string client)
         {
             // checks for the maze
             if (clientToMazeName.ContainsKey(client))
@@ -160,7 +160,7 @@ namespace EX3.Models
         /// <param name="name">of the maze  to close</param>
         /// <param name="client">that requested to close the game</param>
         /// <returns>the closed game</returns>
-        public Game CloseGame(string name, int client)
+        public Game CloseGame(string name, string client)
         {
             //if the game is on
             if (activeGames.ContainsKey(name) && IsLegalToClose(name, client))
@@ -185,7 +185,7 @@ namespace EX3.Models
         /// <param name="name">of the maze  to close</param>
         /// <param name="client">that requested to close the game</param>
         /// <returns>true if legal else false</returns>
-        private bool IsLegalToClose(string name, int client)
+        private bool IsLegalToClose(string name, string client)
         {
             if (mazeNameToGame.ContainsKey(name))
             {
@@ -212,7 +212,7 @@ namespace EX3.Models
         /// </summary>
         /// <param name="client">to get the other player</param>
         /// <returns>the other player</returns>
-        public Player GetOtherPlayer(int client)
+        public Player GetOtherPlayer(string client)
         {
             // checks for avtive game
             if (!clientToMazeName.ContainsKey(client))
@@ -228,7 +228,7 @@ namespace EX3.Models
         /// </summary>
         /// <param name="client">to request its game</param>
         /// <returns>the game of the player</returns>
-        public Game GetGameOfPlayer(int client)
+        public Game GetGameOfPlayer(string client)
         {
             // checks for active game with this client
             if (!clientToMazeName.ContainsKey(client))

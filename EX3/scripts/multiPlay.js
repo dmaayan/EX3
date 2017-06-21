@@ -1,7 +1,33 @@
 ﻿
 $("#loader").hide();
-
 $(document).ready(loadSettings);
+
+// Declare a proxy to reference the hub
+var server = $.connection.chatHub;
+
+var maze = undefined;
+var mazeRecived = 0;
+
+// Create a function that the hub can call to broadcast messages
+server.client.reciveMaze = function (data, stat) {
+    // TODO נקודת כשל אופציונלית
+    // got a maze
+    if (state == 1) {
+        maze = data;
+        mazeRecived = 1;
+    }
+};
+
+
+// Start the connection
+$.connection.hub.start().done(function () {
+    $('#btnSendMessage').click(function () {
+        // Call the Send method on the hub
+        chat.server.send(username, $('#message').val());
+        // Clear text box and reset focus for next comment
+        $('#message').val('').focus();
+    });
+});
 
 function loadSettings() {
     $("#mazeName").val("mymaze");
@@ -23,7 +49,6 @@ function loadSettings() {
 
     $(window).ready(function () {
 
-        var myMaze = undefined;
         var otherMaze = undefined;
         var myCanvas = $("#myCanvas")[0];
         var otherCanvas = $("#otherCanvas")[0];
@@ -35,26 +60,29 @@ function loadSettings() {
         var enabled = true;
         var myPos;
         var otherPos;
-        var animating = false;
 
         $("#start").click(function startGame() {
             $("#loader").show();
+            // Call the start method on the hub
+            chat.server.send($('#mazeName').val(), $('#mazeRows').val(), $('#mazeCols').val());
+            if (mazeRecived == 1) {
+                $("#loader").hide();
+                var size = (maze.Rows >= maze.Cols) ? myCanvas.height / maze.Rows : myCanvas.width / maze.Cols;
+                cellWidth = size;
+                cellHeight = size;
+                myPos = { Row: maze.Start.Row, Col: maze.Start.Col };
 
-            var url = "../api/GenerateMaze/" + $("#mazeName").val() + "/" + $("#mazeRows").val() + "/" + $("#mazeCols").val();
+
+            } else {
+                alert("Failed to get maze from server");
+            }
+            
             $.get(url).fail(function () {
                 alert("Failed to get maze from server");
             }).done(function (data) {
-                $("#loader").hide();
-                console.log(data);
-                maze = data;
-                localStorage.removeItem(maze.Name);
-
-                var size = (maze.Rows >= maze.Cols) ? canvas.height / maze.Rows : canvas.width / maze.Cols;
-                cellWidth = size;
-                cellHeight = size;
-                playerPos = { Row: maze.Start.Row, Col: maze.Start.Col };
+                
                 while (!exitImageLoaded || !playerImageLoaded);
-                $("#mazeCanvas").css({ "margin-right": "30px", "border": "1px solid #000000" }).mazeBoard(
+                $("#myCanvas").css({ "margin-right": "30px", "border": "1px solid #000000" }).mazeBoard(
                     { maze: maze.Maze, rows: maze.Rows, cols: maze.Cols },
                     maze.Start.Row, maze.Start.Col,
                     maze.End.Row, maze.End.Col,
@@ -78,84 +106,8 @@ function loadSettings() {
             });
         });
 
-        $("#solve").click(function solve() {
-            if (maze == undefined) {
-                console.log("Please start a game first!");
-                return;
-            }
-            if (animating) {
-                return;
-            }
-            if ((playerPos.Col == maze.End.Col) && (playerPos.Row == maze.End.Row)) {
-                alert("You already won by yourself");
-                return;
-            }
-            animating = true;
-            var url = "../api/GenerateMaze/" + maze.Name + "/" + $("#searchAlgo").val();
-
-            var solveAnimationFunc = function (solution) {
-                enabled = false;
-                localStorage.setItem(maze.Name, JSON.stringify(solution));
-                var directions = solution.Solution;
-
-                var playerRow = maze.Start.Row;
-                var playerCol = maze.Start.Col;
-
-                context.fillStyle = "#ffffff";
-                context.fillRect(cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
-                context.drawImage(playerImage, cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
-
-                var i = 0;
-                interval = setInterval(function () {
-                    if (i >= directions.length) {
-                        context.drawImage(playerImage, cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
-                        context.drawImage(exitImage, cellWidth * maze.End.Col, cellHeight * maze.End.Row, cellWidth, cellHeight);
-                        clearInterval(interval);
-                        enabled = true;
-                        animating = false;
-                        return;
-                    }
-                    var change = changeInCharDirection(directions[i], playerRow, playerCol);
-                    context.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
-                    playerRow = change.Row;
-                    playerCol = change.Col;
-                    context.drawImage(playerImage, cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
-                    ++i;
-                }, 250);
-            };
-
-            var solutioinInLocal = localStorage.getItem(maze.Name);
-            if (solutioinInLocal != undefined) {
-                solveAnimationFunc(JSON.parse(solutioinInLocal));
-            } else {
-                $.get(url).fail(function () {
-                    alert("Failed to get solution from server");
-                }).done(solveAnimationFunc);
-            }
-        });
+        
     });
-}
-
-
-function changeInCharDirection(direction, playerRow, playerCol) {
-    switch (direction) {
-        case '0': {
-            // left
-            return { Row: playerRow, Col: (playerCol - 1) };
-        }
-        case '1': {
-            // right
-            return { Row: playerRow, Col: (playerCol + 1) };
-        }
-        case '2': {
-            // up
-            return { Row: (playerRow - 1), Col: playerCol };
-        }
-        case '3': {
-            // down
-            return { Row: (playerRow + 1), Col: playerCol };
-        }
-    }
 }
 
 function changeInKeyDirection(direction, playerRow, playerCol) {
