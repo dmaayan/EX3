@@ -71,28 +71,28 @@ function loadSettings() {
                 cellWidth = size;
                 cellHeight = size;
                 myPos = { Row: maze.Start.Row, Col: maze.Start.Col };
-
-
-            } else {
-                alert("Failed to get maze from server");
-            }
-            
-            $.get(url).fail(function () {
-                alert("Failed to get maze from server");
-            }).done(function (data) {
-                
+                // if the Images didn't load, wait
                 while (!exitImageLoaded || !playerImageLoaded);
-                $("#myCanvas").css({ "margin-right": "30px", "border": "1px solid #000000" }).mazeBoard(
+
+                // set canvas style and draw the maze
+                $("#mazeCanvas").css({ "margin-right": "30px", "border": "1px solid #000000" }).mazeBoard(
                     { maze: maze.Maze, rows: maze.Rows, cols: maze.Cols },
                     maze.Start.Row, maze.Start.Col,
                     maze.End.Row, maze.End.Col,
                     playerImage, exitImage, enabled,
                     function (direction, playerRow, playerCol) {
+                        // change pos in the direction of movement
                         var pos = changeInKeyDirection(direction, playerRow, playerCol);
+                        // if game is enabled, try to move
                         if (enabled) {
-
+                            // check position boundaries
+                            if ((pos.Row >= maze.Rows) || (pos.Col >= maze.Col) || (pos.Row < 0) || (pos.Col < 0)) {
+                                return { Row: playerRow, Col: playerCol };
+                            }
+                            // get maze tile and check
                             var mazePos = maze.Maze[pos.Row * maze.Cols + pos.Col];
                             if (mazePos != 1) {
+                                // change position
                                 playerPos = pos;
                                 context.fillStyle = "#ffffff";
                                 context.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
@@ -100,16 +100,41 @@ function loadSettings() {
                                 return pos;
                             }
                         }
+                        // return the current location
                         return { Row: playerRow, Col: playerCol };
                     }
                 );
-            });
-        });
 
-        
+            } else {
+                alert("Failed to get maze from server");
+            }             
+         });
     });
 }
 
+// return a json of location after change to the right direction
+function changeInCharDirection(direction, playerRow, playerCol) {
+    switch (direction) {
+        case '0': {
+            // left
+            return { Row: playerRow, Col: (playerCol - 1) };
+        }
+        case '1': {
+            // right
+            return { Row: playerRow, Col: (playerCol + 1) };
+        }
+        case '2': {
+            // up
+            return { Row: (playerRow - 1), Col: playerCol };
+        }
+        case '3': {
+            // down
+            return { Row: (playerRow + 1), Col: playerCol };
+        }
+    }
+}
+
+// return a json of location after change to the right direction
 function changeInKeyDirection(direction, playerRow, playerCol) {
     switch (direction) {
         case 37: {
@@ -130,4 +155,7 @@ function changeInKeyDirection(direction, playerRow, playerCol) {
         }
     }
 }
+
+
+
 
