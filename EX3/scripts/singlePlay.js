@@ -77,10 +77,10 @@ function loadSettings() {
                     maze.End.Row, maze.End.Col,
                     playerImage, exitImage, enabled,
                     function (direction, playerRow, playerCol) {
-                        // change pos in the direction of movement
-                        var pos = changeInKeyDirection(direction, playerRow, playerCol);
                         // if game is enabled, try to move
                         if (enabled) {
+                            // change pos in the direction of movement
+                            var pos = changeInKeyDirection(direction, playerRow, playerCol);
                             // check position boundaries
                             if ((pos.Row >= maze.Rows) || (pos.Col >= maze.Col) || (pos.Row < 0) || (pos.Col < 0)) {
                                 return { Row: playerRow, Col: playerCol };
@@ -93,6 +93,9 @@ function loadSettings() {
                                 context.fillStyle = "#ffffff";
                                 context.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
                                 context.drawImage(playerImage, cellWidth * pos.Col, cellHeight * pos.Row, cellWidth, cellHeight);
+                                if (playerPos.Row == maze.End.Row && playerPos.Col == maze.End.Col) {
+                                    $("#winLabel").html("Congratulations, you won!");
+                                }
                                 return pos;
                             }
                         }
@@ -149,8 +152,8 @@ function loadSettings() {
                         return;
                     }
                     // change the player location on animation
-                    PosAtAnimation = changeInCharDirection(directions[i], PosAtAnimation.Row, PosAtAnimation.Col);
                     context.fillRect(cellWidth * PosAtAnimation.Col, cellHeight * PosAtAnimation.Row, cellWidth, cellHeight);
+                    PosAtAnimation = changeInCharDirection(directions[i], PosAtAnimation.Row, PosAtAnimation.Col);
                     context.drawImage(playerImage, cellWidth * PosAtAnimation.Col, cellHeight * PosAtAnimation.Row, cellWidth, cellHeight);
                     ++i;
                 }, 250);
@@ -211,6 +214,10 @@ function changeInKeyDirection(direction, playerRow, playerCol) {
         case 40: {
             // down
             return { Row: (playerRow + 1), Col: playerCol };
+        }
+        default: {
+            // none direction key
+            return { Row: playerRow, Col: playerCol };
         }
     }
 }

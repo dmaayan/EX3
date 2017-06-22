@@ -49,9 +49,8 @@
 			        playerPos = callback(event.which, playerPos.Row, playerPos.Col);
                     // check if finished the game
                     if ((playerPos.Row == exitRow) && (playerPos.Col == exitCol)) {
-                        // disable the game and print a win message
+                        // disable the game
                         enabled = false;
-                        $("#winLabel").html("Congratulations, you won!");
                     }
                 }
             });
