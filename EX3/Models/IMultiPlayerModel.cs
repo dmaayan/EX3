@@ -31,20 +31,12 @@ namespace EX3.Models
         Maze JoinGame(string name, string client);
 
         /// <summary>
-        /// play a move in the game
-        /// </summary>
-        /// <param name="move"> Direction to play</param>
-        /// <param name="client">that moved</param>
-        /// <returns>the maze played by this client</returns>
-        Maze PlayGame(Direction move, string client);
-
-        /// <summary>
         /// close a multiplayer game
         /// </summary>
         /// <param name="name">of the maze  to close</param>
         /// <param name="client">that requested to close the game</param>
         /// <returns>the closed game</returns>
-        Game CloseGame(string name, string client);
+        void CloseGame(string name, string client);
 
         /// <summary>
         /// list all waiting games names

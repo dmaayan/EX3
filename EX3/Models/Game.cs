@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace EX3.Models
+﻿namespace EX3.Models
 {
     /// <summary>
     /// game between two players

@@ -8,6 +8,9 @@ using System.Web;
 
 namespace EX3.Models
 {
+    /// <summary>
+    /// MultiPlayerModel is an IMultiPlayerModel. the model of the games
+    /// </summary>
     public class MultiPlayerModel : IMultiPlayerModel
     {
         /// <summary>
@@ -48,29 +51,6 @@ namespace EX3.Models
         }
 
         /// <summary>
-        /// Generate a Maze
-        /// </summary>
-        /// <param name="name">the name of the maze </param>
-        /// <param name="rows">the rows of the maze </param>
-        /// <param name="cols">the cols of the maze </param>
-        /// <returns>the new maze,if the maze already return null</returns>
-        private Maze MultiGameGenerateMaze(string name, int rows, int cols)
-        {
-            // if the maze exist return null
-            if (multiPlayerMazes.ContainsKey(name))
-            {
-                return null;
-            }
-            DFSMazeGenerator mazeGenerator = new DFSMazeGenerator();
-            Maze maze = mazeGenerator.Generate(rows, cols);
-            maze.Name = name;
-
-            // add the new maze
-            multiPlayerMazes.Add(name, maze);
-            return maze;
-        }
-
-        /// <summary>
         /// start a game
         /// </summary>
         /// <param name="name">of the maze </param>
@@ -102,6 +82,29 @@ namespace EX3.Models
         }
 
         /// <summary>
+        /// Generate a Maze
+        /// </summary>
+        /// <param name="name">the name of the maze </param>
+        /// <param name="rows">the rows of the maze </param>
+        /// <param name="cols">the cols of the maze </param>
+        /// <returns>the new maze,if the maze already return null</returns>
+        private Maze MultiGameGenerateMaze(string name, int rows, int cols)
+        {
+            // if the maze exist return null
+            if (multiPlayerMazes.ContainsKey(name))
+            {
+                return null;
+            }
+            DFSMazeGenerator mazeGenerator = new DFSMazeGenerator();
+            Maze maze = mazeGenerator.Generate(rows, cols);
+            maze.Name = name;
+
+            // add the new maze
+            multiPlayerMazes.Add(name, maze);
+            return maze;
+        }
+
+        /// <summary>
         /// join a game
         /// </summary>
         /// <param name="name"> of the game to join </param>
@@ -110,7 +113,7 @@ namespace EX3.Models
         public Maze JoinGame(string name, string client)
         {
             // check for available maze with that name
-            if (waitingList.ContainsKey(name))
+            if ((name!= null) && (waitingList.ContainsKey(name)))
             {
                 Maze maze = waitingList[name];
                 string mazeName = maze.Name;
@@ -129,41 +132,14 @@ namespace EX3.Models
         }
 
         /// <summary>
-        /// play a move in the game
-        /// </summary>
-        /// <param name="move"> Direction to play</param>
-        /// <param name="client">that moved</param>
-        /// <returns>the maze played by this client</returns>
-        public Maze PlayGame(Direction move, string client)
-        {
-            // checks for the maze
-            if (clientToMazeName.ContainsKey(client))
-            {
-                //get the maze info
-                string mazeName = clientToMazeName[client];
-                Game game = mazeNameToGame[mazeName];
-                Maze maze = multiPlayerMazes[mazeName];
-
-                // checks that the game is active
-                if (activeGames.ContainsKey(maze.Name))
-                {
-                    //player.Way.Add(move);
-                    return maze;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
         /// close a multiplayer game
         /// </summary>
-        /// <param name="name">of the maze  to close</param>
+        /// <param name="name">of the maze to close</param>
         /// <param name="client">that requested to close the game</param>
-        /// <returns>the closed game</returns>
-        public Game CloseGame(string name, string client)
+        public void CloseGame(string name, string client)
         {
-            //if the game is on
-            if (activeGames.ContainsKey(name) && IsLegalToClose(name, client))
+            // if the game is on
+            if ((name!= null) && (activeGames.ContainsKey(name)))
             {
                 //remove from active list and multiplayer mazes list
                 activeGames.Remove(name);
@@ -174,28 +150,8 @@ namespace EX3.Models
                 mazeNameToGame.Remove(name);
                 clientToMazeName.Remove(game.FirstPlayer.Client);
                 clientToMazeName.Remove(game.SecondPlayer.Client);
-                return game;
+                //TODO  לא אמורים למחוק פה גם את המשחק עצמו ? (game)?
             }
-            return null;
-        }
-
-        /// <summary>
-        /// checks if the client had permision to close the game
-        /// </summary>
-        /// <param name="name">of the maze  to close</param>
-        /// <param name="client">that requested to close the game</param>
-        /// <returns>true if legal else false</returns>
-        private bool IsLegalToClose(string name, string client)
-        {
-            if (mazeNameToGame.ContainsKey(name))
-            {
-                // get the game and other player
-                Game game = mazeNameToGame[name];
-                Player otherPlayer = game.GetOtherPlayer(client);
-                // player is null if the client is not a part of this game
-                return otherPlayer != null;
-            }
-            return false;
         }
 
         /// <summary>

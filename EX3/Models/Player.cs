@@ -7,7 +7,7 @@ using System.Web;
 namespace EX3.Models
 {
     /// <summary>
-    /// Player has client, list of Directions, and bool ( if wait )
+    /// Player has client and bool - wait to other player
     /// </summary>
     public class Player
     {
@@ -15,10 +15,7 @@ namespace EX3.Models
         /// the client
         /// </summary>
         private string client;
-        /// <summary>
-        /// the way that this player have played
-        /// </summary>
-        private List<Direction> way;
+
         /// <summary>
         /// statues to wait for another player
         /// </summary>
@@ -32,7 +29,6 @@ namespace EX3.Models
         {
             wait = false;
             client = c;
-            way = new List<Direction>();
         }
 
         /// <summary>
@@ -44,15 +40,7 @@ namespace EX3.Models
         }
 
         /// <summary>
-        /// a property of way 
-        /// </summary>
-        public List<Direction> Way
-        {
-            get { return way; }
-        }
-
-        /// <summary>
-        /// WaitForPlayer make the thread wait if the boolean wait i true
+        /// WaitForPlayer make the thread wait if the boolean wait is true
         /// </summary>
         public void WaitForPlayer()
         {
