@@ -37,26 +37,23 @@ namespace EX3.Controllers
             return Ok(statistics);
         }
 
-        // PUT: api/Statistics/username/1
+        // PUT: api/Statistics
         [ResponseType(typeof(void))]
-        [Route("api/Statistics/{winOrLose}")]
-        public async Task<IHttpActionResult> PutStatistics(string id, int isWin)
+        [HttpPost]
+        [Route("api/Statistics/{id}")]
+        public async Task<IHttpActionResult> PostStatistics(string id, Statistics statistics)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            Statistics statistics = await db.Statistics.FindAsync(id);
-            if (isWin == 1)
-            {
-                statistics.Wins++;
-            }
-            else
-            {
-                statistics.Losses++;
-            }
-            db.Entry(statistics).State = EntityState.Modified;
+            // get the stat with the id
+            Statistics stat = await db.Statistics.FindAsync(id);
+            // update it
+            stat.Wins += statistics.Wins;
+            stat.Losses += statistics.Losses;
+            // save it
+            db.Entry(stat).State = EntityState.Modified;
 
             try
             {

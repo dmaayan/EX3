@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var navDivString = "<div id=\"nav_div\">" +
         "<nav class=\"navbar navbar-default\" role=\"navigation\">" +
         "<div class=\"navbar-header\">" +
-        "<a class=\"navbar-brand\" >Maze</a>" +
+        "<a class=\"navbar-brand\" href=\"MainPage.html\">Maze</a>" +
         "</div >" +
         "<div>" +
         "<ul class=\"nav navbar-nav\">" +
@@ -43,3 +43,4 @@ function multiClick() {
         window.location = "../html/LoginPage.html";
     }
 }
+

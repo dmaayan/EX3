@@ -20,7 +20,7 @@ namespace EX3
         /// </summary>
         private static IMultiPlayerModel model = new MultiPlayerModel();
 
-        ///
+        
         public void Send(string name, string message)
         {
             // Call the broadcastMessage method to update clients

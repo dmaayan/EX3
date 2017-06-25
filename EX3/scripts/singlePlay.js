@@ -60,6 +60,8 @@ function loadSettings() {
                 // hide the loader
                 $("#loader").hide();
                 maze = data;
+                //change the name of the 
+                document.title = maze.Name;
                 // delete previeus maze solutions
                 localStorage.removeItem(maze.Name);
 

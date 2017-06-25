@@ -150,7 +150,6 @@ namespace EX3.Models
                 mazeNameToGame.Remove(name);
                 clientToMazeName.Remove(game.FirstPlayer.Client);
                 clientToMazeName.Remove(game.SecondPlayer.Client);
-                //TODO  לא אמורים למחוק פה גם את המשחק עצמו ? (game)?
             }
         }
 

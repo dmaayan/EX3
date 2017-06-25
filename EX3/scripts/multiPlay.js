@@ -1,4 +1,9 @@
 ﻿
+// do not let an unregistered user into multi games
+if (!sessionStorage.user) {
+    window.location.replace("../html/LoginPage.html");
+}
+
 // Declare a proxy to reference the hub
 var server = $.connection.chatHub;
 //define and load the image of the player
@@ -27,8 +32,6 @@ var playerImageLoaded = false;
 var exitImageLoaded = false;
 var mazeName = undefined;
 var win = false;
-
-
 
 // reciveMaze is a function that the hub can call to send the maze.
 // the function get a data - maze and the maze's stat (1 if got a maze, 0 else)
@@ -84,15 +87,14 @@ server.client.reciveMaze = function (data, stat) {
                         // in case of winning, end the game
                         if (playerPos.Row == maze.End.Row && playerPos.Col == maze.End.Col) {
                             $("#winOrLose").html("Congratulations, you won!");
+                            win = true; 
                             endGame();
-                            win = true;  
+
                         }
                         // send to the server that a move has been played, with the new position  
                         server.server.playMove(JSON.stringify(pos));
                         return pos;
                     }
-                } else {
-                    endGame();
                 }
 
                 // return the current location
@@ -129,7 +131,6 @@ server.client.move = function (data, stat) {
         otherContext.drawImage(playerImage, cellWidth * pos.Col, cellHeight * pos.Row, cellWidth, cellHeight);
         // in case of losing, end the game
         if (pos.Row == maze.End.Row && pos.Col == maze.End.Col) {
-            dibagger;
             $("#winOrLose").html("You Lost !");
             endGame();
         }
@@ -171,16 +172,23 @@ function loadSettings() {
     $(window).ready(function () {
         // the start button has been clicked, update the page, and send request to the server
         $("#start").click(function () {
-            $("#loader").show();
-            $("#join").hide();
-            $("#start").hide();
-            $("#winOrLose").html("");
-            // Call the start method on the hub
-            server.server.startGame($('#mazeName').val(), $('#mazeRows').val(), $('#mazeCols').val()); 
+            if (($('#mazeName').val().length > 0) && ($('#mazeRows').val() > 0) && ($('#mazeCols').val() > 0)) {
+                $(window).off("keydown");
+                $("#loader").show();
+                $("#join").hide();
+                $("#start").hide();
+                $("#winOrLose").html("");
+                // Call the start method on the hub
+                server.server.startGame($('#mazeName').val(), $('#mazeRows').val(), $('#mazeCols').val());
+            } else {
+                alert("Please fill all the fileds")
+            }
 
+        
         });
         // the join button has been clicked, update the page, and send request to the server
         $("#join").click(function () {
+            $(window).off("keydown");
             $("#loader").show();
             $("#join").hide();
             $("#start").hide();
@@ -203,17 +211,28 @@ function endGame()
     $("#start").show();
     enabled = false;
     document.title = 'Multi Player';
-    // update the Statistics
+    var statistics;
+    var user = sessionStorage.user;
+    // define url for post request
+    var url = "../api/Statistics/" + user;
+    var userData;
     if (win) {
-        console.log("winner");
-        $.put("../api/Statistics/1").fail(function () {
-            alert("Failed to update Statistics");
-        });
+        // if won, define stat plus 1 for wins
+        userData = { UserName: user, Wins: 1, Losses: 0 };
     } else {
-        console.log("loser");
-        //$.put("../api/Statistics/2");
+        // if lost, define stat plus 1 for losses
+        userData = { UserName: user, Wins: 0, Losses: 1 };
+        // inform the server that game have ended
         server.server.gameOver(mazeName);
     }
+    // update the Statistics
+    $.post(url, userData).fail(function (xhr) {
+        // data base error
+       console.log("Data base error");
+    }).done(function () {
+        // user have been saved
+        console.log("statistics have been saved into database");
+    });
 }
 
 // return a json of location after change to the right direction
