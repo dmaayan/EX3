@@ -20,14 +20,8 @@ exitImage.onload = function () {
 }
 var maze = undefined;
 var enabled = true;
-var otherCanvas = $("#otherCanvas")[0];
-var myCanvas = $("#myCanvas")[0];
-var otherContext = otherCanvas.getContext("2d");
-var myContext = myCanvas.getContext("2d");
-var myPos = undefined;
+
 var otherPos = undefined;
-var cellWidth = undefined;
-var cellHeight = undefined;
 var playerImageLoaded = false;
 var exitImageLoaded = false;
 var mazeName = undefined;
@@ -37,6 +31,8 @@ var win = false;
 // the function get a data - maze and the maze's stat (1 if got a maze, 0 else)
 // the function responsible to send to the mazeBoard the function that painting the maze
 server.client.reciveMaze = function (data, stat) {
+    var myCanvas = $("#myCanvas")[0];
+    var myContext = myCanvas.getContext("2d");
     console.log("received maze")
     // got a maze
     if (stat == 1) {
@@ -51,10 +47,9 @@ server.client.reciveMaze = function (data, stat) {
         mazeName = maze.Name;
         // set the sizes depand on the maze size
         var size = (maze.Rows >= maze.Cols) ? myCanvas.height / maze.Rows : myCanvas.width / maze.Cols;
-        cellWidth = size;
-        cellHeight = size;
+        var cellWidth = size;
+        var cellHeight = size;
         // set the players position
-        myPos = { Row: maze.Start.Row, Col: maze.Start.Col };
         otherPos = { Row: maze.Start.Row, Col: maze.Start.Col };
         // wait for images to load
         while (!exitImageLoaded || !playerImageLoaded);
@@ -120,6 +115,11 @@ server.client.reciveMaze = function (data, stat) {
 // move is a function that the hub can call to send the other player move
 // the function get a data -the new position, the stat (1 if got new position, 0 else)
 server.client.move = function (data, stat) {
+    var otherCanvas = $("#otherCanvas")[0];
+    var otherContext = otherCanvas.getContext("2d");
+    var size = (maze.Rows >= maze.Cols) ? otherCanvas.height / maze.Rows : otherCanvas.width / maze.Cols;
+    var cellWidth = size;
+    var cellHeight = size;
     // change position
     if (stat == 1) {
         var pos = JSON.parse(data);
@@ -172,7 +172,7 @@ function loadSettings() {
     $(window).ready(function () {
         // the start button has been clicked, update the page, and send request to the server
         $("#start").click(function () {
-            if (($('#mazeName').val().length > 0) && ($('#mazeRows').val() > 0) && ($('#mazeCols').val() > 0)) {
+            if (($('#mazeName').val().trim().length > 0) && ($('#mazeRows').val() > 0) && ($('#mazeCols').val() > 0)) {
                 $(window).off("keydown");
                 $("#loader").show();
                 $("#join").hide();

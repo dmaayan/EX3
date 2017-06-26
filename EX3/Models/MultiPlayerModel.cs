@@ -60,8 +60,15 @@ namespace EX3.Models
         /// <returns>the maze</returns>
         public Maze StartGame(string name, int rows, int cols, string client)
         {
-            // create a multiplay game - the maze
-            Maze maze = MultiGameGenerateMaze(name, rows, cols);
+            Maze maze;
+            // repeat until game end and game initial pos aren;t the same
+            do
+            {
+                // create a multiplay game - the maze
+                maze = MultiGameGenerateMaze(name, rows, cols);
+            } while ((maze.GoalPos.Col == maze.InitialPos.Col) &&
+                    (maze.GoalPos.Row == maze.InitialPos.Row));
+
             // checks that the maze is ok
             if (maze == null)
             {
