@@ -1,9 +1,4 @@
 ﻿using MazeLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
 namespace EX3.Models
 {
     /// <summary>
@@ -11,7 +6,6 @@ namespace EX3.Models
     /// </summary>
     public interface IMultiPlayerModel
     {
-
         /// <summary>
         /// start a game
         /// </summary>

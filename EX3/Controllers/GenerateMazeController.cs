@@ -1,12 +1,5 @@
 ﻿using EX3.Models;
-using MazeGeneratorLib;
-using MazeLib;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace EX3.Controllers

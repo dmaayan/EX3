@@ -46,7 +46,8 @@ server.client.reciveMaze = function (data, stat) {
         document.title = maze.Name;
         mazeName = maze.Name;
         // set the sizes depand on the maze size
-        var size = (maze.Rows >= maze.Cols) ? myCanvas.height / maze.Rows : myCanvas.width / maze.Cols;
+        var size = (maze.Rows >= maze.Cols) ? myCanvas.height / maze.Rows :
+                    myCanvas.width / maze.Cols;
         var cellWidth = size;
         var cellHeight = size;
         // set the players position
@@ -65,7 +66,8 @@ server.client.reciveMaze = function (data, stat) {
                     // change pos in the direction of movement
                     var pos = changeInKeyDirection(direction, playerRow, playerCol);
                     // check position boundaries
-                    if ((pos.Row >= maze.Rows) || (pos.Col >= maze.Col) || (pos.Row < 0) || (pos.Col < 0)) {
+                    if ((pos.Row >= maze.Rows) || (pos.Col >= maze.Col) ||
+                        (pos.Row < 0) || (pos.Col < 0)) {
                         return { Row: playerRow, Col: playerCol };
                     }
                     // get maze tile and check
@@ -76,9 +78,11 @@ server.client.reciveMaze = function (data, stat) {
                         // set the color to white
                         myContext.fillStyle = "#ffffff";
                         // paint the last position of the player to white
-                        myContext.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
+                        myContext.fillRect(cellWidth * playerCol, cellHeight * playerRow,
+                                           cellWidth, cellHeight);
                         // draw the new position of the player
-                        myContext.drawImage(playerImage, cellWidth * pos.Col, cellHeight * pos.Row, cellWidth, cellHeight);
+                        myContext.drawImage(playerImage, cellWidth * pos.Col,
+                                            cellHeight * pos.Row, cellWidth, cellHeight);
                         // in case of winning, end the game
                         if (playerPos.Row == maze.End.Row && playerPos.Col == maze.End.Col) {
                             $("#winOrLose").html("Congratulations, you won!");
@@ -86,7 +90,7 @@ server.client.reciveMaze = function (data, stat) {
                             endGame();
 
                         }
-                        // send to the server that a move has been played, with the new position  
+                        // send to the server that a move has been played, with the new position
                         server.server.playMove(JSON.stringify(pos));
                         return pos;
                     }
@@ -97,7 +101,7 @@ server.client.reciveMaze = function (data, stat) {
             }
         );
         // set canvas style and draw the other (rival) maze
-        $("#otherCanvas").css({ "margin-right": "30px", "border": "1px solid #000000" }).mazeBoard(
+        $("#otherCanvas").css({"margin-right": "30px", "border": "1px solid #000000"}).mazeBoard(
             { maze: maze.Maze, rows: maze.Rows, cols: maze.Cols },
             maze.Start.Row, maze.Start.Col,
             maze.End.Row, maze.End.Col,
@@ -117,7 +121,8 @@ server.client.reciveMaze = function (data, stat) {
 server.client.move = function (data, stat) {
     var otherCanvas = $("#otherCanvas")[0];
     var otherContext = otherCanvas.getContext("2d");
-    var size = (maze.Rows >= maze.Cols) ? otherCanvas.height / maze.Rows : otherCanvas.width / maze.Cols;
+    var size = (maze.Rows >= maze.Cols) ? otherCanvas.height / maze.Rows :
+                                          otherCanvas.width / maze.Cols;
     var cellWidth = size;
     var cellHeight = size;
     // change position
@@ -126,9 +131,11 @@ server.client.move = function (data, stat) {
         // set the color to white
         otherContext.fillStyle = "#ffffff";  
         // paint the last position of the other player to white
-        otherContext.fillRect(cellWidth * otherPos.Col, cellHeight * otherPos.Row, cellWidth, cellHeight);
+        otherContext.fillRect(cellWidth * otherPos.Col, cellHeight * otherPos.Row,
+                              cellWidth, cellHeight);
         // draw the new position of the other player
-        otherContext.drawImage(playerImage, cellWidth * pos.Col, cellHeight * pos.Row, cellWidth, cellHeight);
+        otherContext.drawImage(playerImage, cellWidth * pos.Col,
+                               cellHeight * pos.Row, cellWidth, cellHeight);
         // in case of losing, end the game
         if (pos.Row == maze.End.Row && pos.Col == maze.End.Col) {
             $("#winOrLose").html("You Lost !");
@@ -172,14 +179,16 @@ function loadSettings() {
     $(window).ready(function () {
         // the start button has been clicked, update the page, and send request to the server
         $("#start").click(function () {
-            if (($('#mazeName').val().trim().length > 0) && ($('#mazeRows').val() > 0) && ($('#mazeCols').val() > 0)) {
+            if (($('#mazeName').val().trim().length > 0) && ($('#mazeRows').val() > 0)
+                                                         && ($('#mazeCols').val() > 0)) {
                 $(window).off("keydown");
                 $("#loader").show();
                 $("#join").hide();
                 $("#start").hide();
                 $("#winOrLose").html("");
                 // Call the start method on the hub
-                server.server.startGame($('#mazeName').val(), $('#mazeRows').val(), $('#mazeCols').val());
+                server.server.startGame($('#mazeName').val(), $('#mazeRows').val(),
+                                        $('#mazeCols').val());
             } else {
                 alert("Please fill all the fileds")
             }

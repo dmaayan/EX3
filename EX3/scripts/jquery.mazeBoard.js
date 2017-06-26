@@ -16,7 +16,8 @@
         // clear the current canvas
         context.fillRect(0, 0, canvas.width, canvas.height);
         // calculate the size of each tile
-        var size = (mazeData.rows >= mazeData.cols) ? canvas.height / mazeData.rows : canvas.width / mazeData.cols;
+        var size = (mazeData.rows >= mazeData.cols) ? canvas.height / mazeData.rows :
+                                                      canvas.width / mazeData.cols;
         var cellWidth = size;
         var cellHeight = size;
 
@@ -36,8 +37,10 @@
         playerPos = { Row: startRow, Col: startCol };
 
         // draw the player and the exit images
-        context.drawImage(playerImage, cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
-        context.drawImage(exitImage, cellWidth * exitCol, cellHeight * exitRow, cellWidth, cellHeight);
+        context.drawImage(playerImage, cellWidth * playerPos.Col,
+                          cellHeight * playerPos.Row, cellWidth, cellHeight);
+        context.drawImage(exitImage, cellWidth * exitCol, cellHeight * exitRow,
+                          cellWidth, cellHeight);
 
         // add the keydown function to the window
         $(window).on("keydown", function (event) {

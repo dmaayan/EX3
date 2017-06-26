@@ -1,10 +1,4 @@
-﻿using MazeLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace EX3.Models
+﻿namespace EX3.Models
 {
     /// <summary>
     /// Player has client and bool - wait to other player
