@@ -139,16 +139,11 @@
     <Content Include="html\SettingsPage.html" />
     <Content Include="html\SinglePage.html" />
     <Content Include="Images\key.jpg" />
-    <Content Include="Images\menu.png" />
-    <Content Include="Images\menu_blu.png" />
-    <Content Include="Images\menu_blu_shadow.png" />
     <Content Include="Images\player.png" />
     <Content Include="Images\Winning.png" />
-    <Content Include="index.html" />
     <Content Include="scripts\bootstrap-3.3.7-dist\css\bootstrap-theme.css" />
     <Content Include="scripts\bootstrap-3.3.7-dist\css\bootstrap-theme.min.css" />
     <None Include="scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="scripts\chatclient.js" />
     <Content Include="scripts\jquery-1.6.4.js" />
     <Content Include="scripts\jquery-1.6.4.min.js" />
     <Content Include="scripts\jquery.signalR-2.2.2.js" />

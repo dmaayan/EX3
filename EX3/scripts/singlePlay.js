@@ -52,7 +52,8 @@ function loadSettings() {
             }
             enabled = true;
             // set get url request
-            var url = "../api/GenerateMaze/" + $("#mazeName").val() + "/" + $("#mazeRows").val() + "/" + $("#mazeCols").val();
+            var url = "../api/GenerateMaze/" + $("#mazeName").val() + "/" +
+                      $("#mazeRows").val() + "/" + $("#mazeCols").val();
             // send get to server
             $.get(url).fail(function () {
                 alert("Failed to get maze from server");
@@ -66,14 +67,21 @@ function loadSettings() {
                 localStorage.removeItem(maze.Name);
 
                 // calculate maze size
-                var size = (maze.Rows >= maze.Cols) ? canvas.height / maze.Rows : canvas.width / maze.Cols;
+                var size;
+                if (maze.Rows >= maze.Cols) {
+                    size = canvas.height / maze.Rows;
+                } else {
+                    size = canvas.width / maze.Cols;
+                }
                 cellWidth = size;
                 cellHeight = size;
                 playerPos = { Row: maze.Start.Row, Col: maze.Start.Col };
                 // wait for images to load
                 while (!exitImageLoaded || !playerImageLoaded);
                 // set canvas style and draw the maze
-                $("#mazeCanvas").css({ "margin-right": "30px", "border": "1px solid #000000" }).mazeBoard(
+                $("#mazeCanvas").css({
+                    "margin-right": "30px", "border": "1px solid #000000"
+                }).mazeBoard(
                     { maze: maze.Maze, rows: maze.Rows, cols: maze.Cols },
                     maze.Start.Row, maze.Start.Col,
                     maze.End.Row, maze.End.Col,
@@ -84,7 +92,9 @@ function loadSettings() {
                             // change pos in the direction of movement
                             var pos = changeInKeyDirection(direction, playerRow, playerCol);
                             // check position boundaries
-                            if ((pos.Row >= maze.Rows) || (pos.Col >= maze.Col) || (pos.Row < 0) || (pos.Col < 0)) {
+                            if ((pos.Row >= maze.Rows) || (pos.Col >= maze.Col)
+                                                       || (pos.Row < 0)
+                                                       || (pos.Col < 0)) {
                                 return { Row: playerRow, Col: playerCol };
                             }
                             // get maze tile and check
@@ -93,9 +103,12 @@ function loadSettings() {
                                 // change position
                                 playerPos = pos;
                                 context.fillStyle = "#ffffff";
-                                context.fillRect(cellWidth * playerCol, cellHeight * playerRow, cellWidth, cellHeight);
-                                context.drawImage(playerImage, cellWidth * pos.Col, cellHeight * pos.Row, cellWidth, cellHeight);
-                                if (playerPos.Row == maze.End.Row && playerPos.Col == maze.End.Col) {
+                                context.fillRect(cellWidth * playerCol, cellHeight * playerRow,
+                                                 cellWidth, cellHeight);
+                                context.drawImage(playerImage, cellWidth * pos.Col,
+                                                  cellHeight * pos.Row, cellWidth, cellHeight);
+                                if (playerPos.Row == maze.End.Row
+                                    && playerPos.Col == maze.End.Col) {
                                     $("#winLabel").html("Congratulations, you won!");
                                 }
                                 return pos;
@@ -137,8 +150,10 @@ function loadSettings() {
                 var PosAtAnimation = {Row: maze.Start.Row, Col: maze.Start.Col};
                 // define style and starting location
                 context.fillStyle = "#ffffff";
-                context.fillRect(cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
-                context.drawImage(playerImage, cellWidth * PosAtAnimation.Col, cellHeight * PosAtAnimation.Row, cellWidth, cellHeight);
+                context.fillRect(cellWidth * playerPos.Col, cellHeight * playerPos.Row,
+                                 cellWidth, cellHeight);
+                context.drawImage(playerImage, cellWidth * PosAtAnimation.Col,
+                                  cellHeight * PosAtAnimation.Row, cellWidth, cellHeight);
 
                 var i = 0;
                 // define function for intervals
@@ -146,17 +161,22 @@ function loadSettings() {
                     // do until got to end location
                     if (i >= directions.length) {
                         // return the player to its original location and reset
-                        context.drawImage(playerImage, cellWidth * playerPos.Col, cellHeight * playerPos.Row, cellWidth, cellHeight);
-                        context.drawImage(exitImage, cellWidth * maze.End.Col, cellHeight * maze.End.Row, cellWidth, cellHeight);
+                        context.drawImage(playerImage, cellWidth * playerPos.Col,
+                                          cellHeight * playerPos.Row, cellWidth, cellHeight);
+                        context.drawImage(exitImage, cellWidth * maze.End.Col,
+                                          cellHeight * maze.End.Row, cellWidth, cellHeight);
                         clearInterval(interval);
                         enabled = true;
                         animating = false;
                         return;
                     }
                     // change the player location on animation
-                    context.fillRect(cellWidth * PosAtAnimation.Col, cellHeight * PosAtAnimation.Row, cellWidth, cellHeight);
-                    PosAtAnimation = changeInCharDirection(directions[i], PosAtAnimation.Row, PosAtAnimation.Col);
-                    context.drawImage(playerImage, cellWidth * PosAtAnimation.Col, cellHeight * PosAtAnimation.Row, cellWidth, cellHeight);
+                    context.fillRect(cellWidth * PosAtAnimation.Col,
+                                     cellHeight * PosAtAnimation.Row, cellWidth, cellHeight);
+                    PosAtAnimation = changeInCharDirection(directions[i],
+                                                           PosAtAnimation.Row, PosAtAnimation.Col);
+                    context.drawImage(playerImage, cellWidth * PosAtAnimation.Col,
+                                      cellHeight * PosAtAnimation.Row, cellWidth, cellHeight);
                     ++i;
                 }, 250);
             };

@@ -33,7 +33,6 @@ var win = false;
 server.client.reciveMaze = function (data, stat) {
     var myCanvas = $("#myCanvas")[0];
     var myContext = myCanvas.getContext("2d");
-    console.log("received maze")
     // got a maze
     if (stat == 1) {
         enabled = true;

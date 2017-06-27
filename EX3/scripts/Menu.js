@@ -1,11 +1,13 @@
 ﻿
 document.addEventListener("DOMContentLoaded", function (event) {
     // decide which register and login lines to use
-    var registerLi = "<li style=\"margin-left:100px\"><a href=\"RegisterPage.html\">Register</a></li>"
+    var registerLi = "<li style=\"margin-left:100px\"><a href=\"RegisterPage.html\">" +
+                     "Register</a></li>"
     var loginLi = "<li><a href=\"LoginPage.html\">Login</a></li>"
     // change the lines if user is connected
     if (sessionStorage.user) {
-        registerLi = "<li style=\"margin-left:100px\"; width=\"100\"><a>Hello " + sessionStorage.user + "</a></li>";
+        registerLi = "<li style=\"margin-left:100px\"; width=\"100\"><a>Hello " +
+                      sessionStorage.user + "</a></li>";
         loginLi = "<li style=\"margin-left:30px\" onclick=\"logOff()\"><a>Log off</a></li>";
     }
     // create menu bar

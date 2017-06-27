@@ -1,5 +1,4 @@
-﻿/// <reference path="C:\Users\nweichse\Source\Repos\EX3\EX3\html/LoginPage.html" />
-
+﻿
 function validateInputs() {
     // validate all inputs
     var userNameIn = document.getElementById("userName").value;

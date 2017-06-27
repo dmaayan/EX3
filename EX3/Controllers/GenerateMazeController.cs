@@ -4,6 +4,9 @@ using System.Web.Http;
 
 namespace EX3.Controllers
 {
+    /// <summary>
+    /// controller for generate maze and solve services
+    /// </summary>
     public class GenerateMazeController : ApiController
     {
         /// <summary>
